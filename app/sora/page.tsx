@@ -1,6 +1,8 @@
+import { UserButton } from "@clerk/nextjs";
+
 const Sorapage = () => {
     return ( <div>
-        sora
+        <UserButton />
     </div> );
 }
  
