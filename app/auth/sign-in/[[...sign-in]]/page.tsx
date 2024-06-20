@@ -1,5 +1,11 @@
-import { SignIn } from "@clerk/nextjs";
+import SignInComponent from "@/components/signin";
 
-export default function Page() {
-  return <SignIn />;
+const SignInPage = () => {
+  return ( 
+    <div>
+      <SignInComponent />
+    </div>
+   );
 }
+ 
+export default SignInPage;
