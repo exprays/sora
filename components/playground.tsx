@@ -10,7 +10,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
 import OrionMock from "@/lib/orion"
 import { useState } from "react"
-import { Console } from "./console";
+import Console from "./console";
 
 export default function PlaygroundComponent() {
 
