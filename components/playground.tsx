@@ -1,8 +1,5 @@
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/LUGstMvv0uU
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
+"use client";
+
 import { Button } from "@/components/ui/button"
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip"
 import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription } from "@/components/ui/drawer"
@@ -11,8 +8,23 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
+import OrionMock from "@/lib/orion"
+import { useState } from "react"
+import { Console } from "./console";
 
 export default function PlaygroundComponent() {
+
+  const orion = new OrionMock();
+
+  const [command, setCommand] = useState('');
+  const [output, setOutput] = useState<string[]>([]);
+
+  const handleExecute = () => {
+    const result = orion.execute(command);
+    setOutput([...output, `> ${command}\n${result}`]);
+    setCommand(''); // Clear command input after execution
+  };
+
   return (
     <div className="grid h-screen w-full pl-[56px]">
       <aside className="inset-y fixed  left-0 z-20 flex h-full flex-col border-r">
@@ -291,6 +303,12 @@ export default function PlaygroundComponent() {
             </form>
           </div>
           <div className="relative flex h-full min-h-[50vh] flex-col rounded-xl bg-muted/50 p-4 lg:col-span-2">
+          <Console />
+            <div id="output" style={{ marginTop: '20px', whiteSpace: 'pre-line' }}>
+                {output.map((line, index) => (
+                  <div key={index}>{line}</div>
+                ))}
+            </div>
             <Badge variant="outline" className="absolute right-3 top-3">
               Output
             </Badge>
@@ -304,7 +322,9 @@ export default function PlaygroundComponent() {
               </Label>
               <Textarea
                 id="message"
-                placeholder="Type your message here..."
+                value={command}
+                onChange={(e) => setCommand(e.target.value)}
+                placeholder="Type your query here..."
                 className="min-h-12 resize-none border-0 p-3 shadow-none focus-visible:ring-0"
               />
               <div className="flex items-center p-3 pt-0">
@@ -318,17 +338,8 @@ export default function PlaygroundComponent() {
                     </TooltipTrigger>
                     <TooltipContent side="top">Attach File</TooltipContent>
                   </Tooltip>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button variant="ghost" size="icon">
-                        <MicIcon className="size-4" />
-                        <span className="sr-only">Use Microphone</span>
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent side="top">Use Microphone</TooltipContent>
-                  </Tooltip>
-                  <Button type="submit" size="sm" className="ml-auto gap-1.5">
-                    Send Message
+                  <Button type="submit" onClick={handleExecute} size="sm" className="ml-auto gap-1.5">
+                    Send Query
                     <CornerDownLeftIcon className="size-3.5" />
                   </Button>
                 </TooltipProvider>
