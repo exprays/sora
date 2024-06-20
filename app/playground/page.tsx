@@ -1,7 +1,9 @@
+import PlaygroundComponent from "@/components/playground";
+
 const PlaygroundPage = () => {
     return ( 
         <div>
-            Playground
+            <PlaygroundComponent />
         </div>
      );
 }
